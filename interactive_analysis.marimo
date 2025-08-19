@@ -23,12 +23,15 @@ from marimo.widgets import Slider
 # Slider to adjust multiplier of x values
 multiplier = Slider('Multiplier', min=0.5, max=3.0, step=0.1, value=1.0)
 
+
 # Cell: dynamic_markdown
 # Use multiplier value from slider to update display text
-
 from marimo.display import Markdown
 
-Markdown(f"Current multiplier value is **{multiplier.value:.1f}**")
+def update_text():
+    Markdown(f"Current multiplier value is **{multiplier.value:.1f}**")
+
+update_text()
 
 # Update dataset based on multiplier and recalc mean y
 df_updated = df.copy()
@@ -43,3 +46,4 @@ Markdown(f"Mean of y after applying multiplier: **{updated_mean_y:.2f}**")
 # data_analysis uses df to calculate summary stats
 # slider_widget provides multiplier parameter controlled interactively
 # dynamic_markdown updates display based on slider's multiplier and recalculates dependent values
+
