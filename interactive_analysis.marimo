@@ -31,16 +31,20 @@ def data_analysis(df):
     return mean_y, std_y
 
 
-# Cell: slider_widget
+# ✅ Correct Cell: slider_widget
 @app.cell
 def slider_widget():
     import marimo as mo
 
-    # Interactive slider widget
+    # Proper interactive slider widget
     multiplier = mo.ui.slider(
-        start=0.5, stop=3.0, step=0.1, value=1.0, label="Multiplier"
+        start=0.5,
+        stop=3.0,
+        step=0.1,
+        value=1.0,
+        label="Multiplier"
     )
-    multiplier
+    multiplier  # display slider
     return multiplier
 
 
