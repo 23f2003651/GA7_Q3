@@ -6,6 +6,13 @@ import marimo
 app = marimo.App()
 
 
+# Cell: email
+@app.cell
+def email_cell():
+    from marimo import Markdown
+    Markdown("**Email:** 23f2003651@ds.study.iitm.ac.in")
+    return
+
 # Cell: data_initialization
 @app.cell
 def data_initialization():
@@ -75,3 +82,4 @@ def dynamic_markdown(df, multiplier):
 
 if __name__ == "__main__":
     app.run()
+
