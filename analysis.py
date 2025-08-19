@@ -10,7 +10,6 @@ app = marimo.App()
 def email_cell():
     from marimo import Markdown
     Markdown("**Email:** 23f2003651@ds.study.iitm.ac.in")
-    return
 
 
 # Cell: data_initialization
@@ -25,14 +24,6 @@ def data_initialization():
 
     df = pd.DataFrame({"x": x, "y": y})
     return df
-
-
-# Cell: data_analysis
-@app.cell
-def data_analysis(df):
-    mean_y = df["y"].mean()
-    std_y = df["y"].std()
-    return mean_y, std_y
 
 
 # Cell: slider_widget
@@ -50,30 +41,27 @@ def slider_widget():
     return multiplier
 
 
-# ✅ Cell: dynamic_markdown (reactive)
+# ✅ Reactive dynamic Markdown
 @app.cell
 def dynamic_markdown(df, multiplier):
     from marimo import Markdown
     import numpy as np
 
-    # This updates whenever multiplier.value changes
-    df_updated = df.copy()
-    df_updated["x"] = df["x"] * multiplier.value
-    df_updated["y"] = 3 * df_updated["x"] + np.random.normal(
-        0, 3, size=df_updated.shape[0]
-    )
-
-    updated_mean_y = df_updated["y"].mean()
-
-    # Dynamic markdown content
-    Markdown(
-        f"""
+    def render_markdown(mult_val):
+        df_updated = df.copy()
+        df_updated["x"] = df["x"] * mult_val
+        df_updated["y"] = 3 * df_updated["x"] + np.random.normal(
+            0, 3, size=df_updated.shape[0]
+        )
+        updated_mean_y = df_updated["y"].mean()
+        return f"""
 ### Interactive Analysis
-- Current multiplier: **{multiplier.value:.1f}**  
+- Current multiplier: **{mult_val:.1f}**  
 - Updated mean of y: **{updated_mean_y:.2f}**
 """
-    )
-    return df_updated, updated_mean_y
+
+    # Make Markdown reactive to multiplier.value
+    Markdown(lambda: render_markdown(multiplier.value))
 
 
 if __name__ == "__main__":
