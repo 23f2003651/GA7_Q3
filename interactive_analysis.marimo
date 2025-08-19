@@ -1,0 +1,45 @@
+# 23f2003651@ds.study.iitm.ac.in
+
+# Cell: data_initialization
+import numpy as np
+import pandas as pd
+
+# Generate example dataset with two variables
+np.random.seed(0)
+x = np.linspace(0, 10, 100)
+y = 3*x + np.random.normal(0, 3, size=x.shape)
+
+df = pd.DataFrame({'x': x, 'y': y})
+
+# Cell: data_analysis
+# Using df from previous cell to compute statistics
+mean_y = df['y'].mean()
+std_y = df['y'].std()
+
+# Cell: slider_widget
+# Import slider widget
+from marimo.widgets import Slider
+
+# Slider to adjust multiplier of x values
+multiplier = Slider('Multiplier', min=0.5, max=3.0, step=0.1, value=1.0)
+
+# Cell: dynamic_markdown
+# Use multiplier value from slider to update display text
+
+from marimo.display import Markdown
+
+Markdown(f"Current multiplier value is **{multiplier.value:.1f}**")
+
+# Update dataset based on multiplier and recalc mean y
+df_updated = df.copy()
+df_updated['x'] = df['x'] * multiplier.value
+df_updated['y'] = 3 * df_updated['x'] + np.random.normal(0, 3, size=df_updated.shape[0])
+
+updated_mean_y = df_updated['y'].mean()
+Markdown(f"Mean of y after applying multiplier: **{updated_mean_y:.2f}**")
+
+# Comments showing data flow example:
+# data_initialization defines initial dataset (df)
+# data_analysis uses df to calculate summary stats
+# slider_widget provides multiplier parameter controlled interactively
+# dynamic_markdown updates display based on slider's multiplier and recalculates dependent values
